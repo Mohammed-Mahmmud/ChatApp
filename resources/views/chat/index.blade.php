@@ -61,47 +61,39 @@
         channel.bind('App\\Events\\MessageSentEvent', function(data) {
             console.log(JSON.stringify(data));
         });
-
-        // Handle the form submission
-        // This will send the message to the server via AJAX
-        // and display a success message without reloading the page
+    </script>
+    <script>
         document.getElementById('chat-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const userId = document.getElementById('user_id').value;
-            const message = document.getElementById('message').value;
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            e.preventDefault(); // منع إعادة تحميل الصفحة
 
-            fetch('{{ route('chat.send') }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        user_id: userId,
-                        message: message
-                    })
+            let userId = document.getElementById('user_id').value;
+            let message = document.getElementById('message').value;
+            let token = document.querySelector('input[name="_token"]').value;
+
+            fetch('{{ route("chat.send") }}', {
+                    method: 'POST'
+                    , headers: {
+                        'Content-Type': 'application/json'
+                        , 'X-CSRF-TOKEN': token
+                        , 'Accept': 'application/json'
+                    , }
+                    , body: JSON.stringify({
+                        user_id: userId
+                        , message: message
+                    , })
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network error');
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    document.getElementById('message').value = '';
-                    const alertDiv = document.getElementById('alert-success');
-                    alertDiv.textContent = data.message || 'Message sent successfully.';
-                    alertDiv.classList.remove('hidden');
-                    // Hide any old server-side flash message
-                    const flashDiv = document.getElementById('alert-flash');
-                    if (flashDiv) flashDiv.classList.add('hidden');
-                    console.log('Message sent:', data);
+                    document.getElementById('alert-success').classList.remove('hidden');
+                    document.getElementById('alert-success').innerText = 'تم إرسال الرسالة بنجاح';
+                    document.getElementById('chat-form').reset();
                 })
                 .catch(error => {
-                    console.error('Error sending message:', error);
+                    console.error('خطأ:', error);
                 });
         });
+
     </script>
+
+    
 @endpush

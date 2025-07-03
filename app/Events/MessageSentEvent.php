@@ -46,12 +46,12 @@ class MessageSentEvent implements ShouldBroadcast
     {
         return [new Channel('message-sent')];
     }
-    // public function broadcastWith(){
-    //     return [
-    //         'message' => $this->message,
-    //         'user' => $this->user,
-    //     ];
-    // }
+    public function broadcastWith(){
+        return [
+            'message' => $this->message,
+            'user' => $this->user->name,
+        ];
+    }
     // public function broadcastAs(){
     //     return 'message-sent';
     // }
