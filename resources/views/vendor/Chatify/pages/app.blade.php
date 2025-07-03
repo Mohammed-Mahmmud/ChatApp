@@ -11,6 +11,15 @@
                     <a href="#"><i class="fas fa-cog settings-btn"></i></a>
                     <a href="#" class="listView-x"><i class="fas fa-times"></i></a>
                 </nav>
+                 {{-- logout button --}}
+    <a href="{{ route('logout') }}" class="logout-btn" onclick="event.preventDefault();
+    document.getElementById('logout-form').submit();">
+<i class="fas fa-sign-out-alt"></i>
+<span class="logout-txt">Logout</span>
+</a>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+@csrf
+</form>
             </nav>
             {{-- Search input --}}
             <input type="text" class="messenger-search" placeholder="Search" />
@@ -47,7 +56,7 @@
              </div>
         </div>
     </div>
-
+   
     {{-- ----------------------Messaging side---------------------- --}}
     <div class="messenger-messagingView">
         {{-- header title [conversation name] amd buttons --}}

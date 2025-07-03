@@ -4,5 +4,5 @@
             style="background-image: url('{{ Chatify::getUserWithAvatar($user)->avatar }}');">
         </div>
         <p>{{ strlen($user->name) > 5 ? substr($user->name,0,6).'..' : $user->name }}</p>
-    @endif
+        @endif
 </div>
