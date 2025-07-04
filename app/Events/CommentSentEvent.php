@@ -10,17 +10,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSentEvent implements ShouldBroadcast
+class CommentSentEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public $message, public $user)
+    public function __construct(public $message)
     {
-        $this->message = $message;
-        $this->user = $user;
+        // You can initialize any properties or perform actions here if needed
+        $this->message = "welcome ".$message;
     }
 
     /**
@@ -28,37 +28,20 @@ class MessageSentEvent implements ShouldBroadcast
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-
-    public function toArray()
+    public function broadcastWith()
     {
         return [
             'message' => $this->message,
-            'user' => $this->user,
         ];
-    }
-
-    public function via(): array
-    {
-        return ['broadcast'];
-    }
-
-    public function broadcastOn(): array
-    {
-        return [new PrivateChannel('message-sent')];
     }
     public function broadcastAs()
     {
-    return 'message-sent';
+        return 'comment-sent';
     }
-
-    public function broadcastWith(){
-        return [
-            // 'message' => $this->message,
-            'user' => $this->user->name,
-        ];
-    }
-    public function broadcastWhen():bool
+    public function broadcastOn(): array
     {
-        return $this->user->id !== auth()->id(); // Only broadcast if the user is not the one sending the message
+        return [
+            new PrivateChannel('message-sent'),
+        ];
     }
 }

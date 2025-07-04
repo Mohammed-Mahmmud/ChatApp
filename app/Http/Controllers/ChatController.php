@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentSentEvent;
 use App\Events\MessageSentEvent;
+use App\Events\MessagePublicEvent;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -25,7 +27,11 @@ class ChatController extends Controller
     $user = User::find($request->user_id);
 
     // إرسال الحدث عبر البث
-    MessageSentEvent::dispatch($message, $user);
+    // MessageSentEvent::dispatch($message, $user);
+    // CommentSentEvent::dispatch($message);
+    
+    //public channel
+    MessagePublicEvent::dispatch($message);
 
     return response()->json(['success' => true, 'message' => 'Message sent successfully']);
     }

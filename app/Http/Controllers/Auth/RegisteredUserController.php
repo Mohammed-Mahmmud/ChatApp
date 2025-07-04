@@ -45,7 +45,9 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+        
+        // $user->broadcastChannel();
 
-        return redirect()->route(config('chatify.routes.prefix'));
+        return redirect()->route('chat.index');
     }
 }

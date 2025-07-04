@@ -1,20 +1,21 @@
-@extends('layouts.app')
-@section('content')
-    <x-slot name="header">
+<?php $__env->startSection('content'); ?>
+     <?php $__env->slot('header', null, []); ?> 
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Chat') }}
+            <?php echo e(__('Chat')); ?>
+
         </h2>
-    </x-slot>
+     <?php $__env->endSlot(); ?>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div id="alert-success" class="hidden text-green-600 mb-4"></div>
-                    @if (session()->has('success'))
+                    <?php if(session()->has('success')): ?>
                         <div id="alert-flash" class="text-green-600 mb-4">
-                            {{ session()->get('success') }}
+                            <?php echo e(session()->get('success')); ?>
+
                         </div>
-                    @endif
+                    <?php endif; ?>
                     <div class="mb-6">
                         <h3 class="font-semibold text-lg mb-2 text-blue-700 flex items-center">
                             <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m10-5a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
@@ -30,15 +31,15 @@
                         <div id="user-joined" class="mt-2 text-green-600 font-medium hidden"></div>
                     </div>
                     <form id="chat-form">
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <div class="mt-4">
                             <label for="user_id"
                                 class="block font-medium text-sm text-gray-700">User</label>
                             <select id="user_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
                                 required>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
+                                <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($user->id); ?>"><?php echo e($user->name); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
 
@@ -59,8 +60,8 @@
             </div>
         </div>
     </div>
-@endsection
-@push('scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('scripts'); ?>
     <script>
         // Handle chat form submission
         document.getElementById('chat-form').addEventListener('submit', function(e) {
@@ -68,7 +69,7 @@
             let userId = document.getElementById('user_id').value;
             let message = document.getElementById('message').value;
             let token = document.querySelector('input[name="_token"]').value;
-            fetch('{{ route("chat.send") }}', {
+            fetch('<?php echo e(route("chat.send")); ?>', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,4 +91,6 @@
 
         
     </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/mohamed/Documents/projects/ChatApp/resources/views/chat/index.blade.php ENDPATH**/ ?>

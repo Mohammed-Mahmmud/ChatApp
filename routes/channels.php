@@ -1,6 +1,8 @@
 <?php
 
 use App\Broadcasting\MessageSentChannel;
+use App\Broadcasting\UserRoomChannel;
+use App\Broadcasting\UserChannel;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -19,3 +21,5 @@ use Illuminate\Support\Facades\Broadcast;
 // });
 
 Broadcast::channel('message-sent', MessageSentChannel::class, ['guards' => ['web']]);
+Broadcast::channel('user-room', UserRoomChannel::class, ['guards' => ['web']]);
+Broadcast::channel('user-event', UserChannel::class, ['guards' => ['web']]);

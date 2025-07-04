@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRoomEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,7 +31,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route(config('chatify.routes.prefix'));
+        // UserRoomEvent::dispatch();  
+        return redirect()->route('chat.index');
+        // return redirect()->route(config('chatify.routes.prefix'));
+
     }
 
     /**
@@ -43,6 +48,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route(config('chatify.routes.prefix'));
+        // UserRoomEvent::dispatch();
+
+        return redirect()->route('chat.index');
     }
 }
