@@ -12,7 +12,7 @@ class ChatChange extends Command
      *
      * @var string
      */
-    protected $signature = 'app:chat-change{--name=}';
+    protected $signature = 'app:chat-change{--name=}{--value=}';
 
     /**
      * The console command description.
@@ -27,6 +27,8 @@ class ChatChange extends Command
     public function handle()
     {
         $message = $this->option('name');
+        $value = $this->option('value');
         MessagePublicEvent::dispatch($message);
+        MessagePublicEvent::dispatch($value);
     }
 }
